@@ -3,7 +3,7 @@
 // routes/usuario.js
 // =============================================
 const express = require('express');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
 const Usuario = require('../models/usuario');
@@ -41,7 +41,8 @@ app.post('/usuario', function(req, res) {
     let usuario = new Usuario({
         nombre: body.nombre,
         email: body.email,
-        password: bcrypt.hashSync(body.password, 10),
+        //password: bcrypt.hashSync(body.password, 10),
+        password: body.password,
         role: body.role
     });
 
