@@ -1,0 +1,16 @@
+//
+RESTServer
+
+Aplicación de uso del servidor
+
+Se utilizan las siguientes librerías:
+Express
+Body-parser
+Mongoose
+Mongoose Unique Validator
+Bcrypt - ej: "const bcrypt = require('bcrypt');"
+Underscore - ej: "const _ = require('underscore');" el "_" (underscore) es una convención
+
+Las librerías utilizadas se pueden ver en el fichero: package.json
+
+
