@@ -3,13 +3,18 @@
 // routes/usuario.js
 // =============================================
 const express = require('express');
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
 const Usuario = require('../models/usuario');
+const { verificaToken, verificaAdminRole } = require('../middlewares/autenticacion');
+// const { verificaAdminRole } = require('../middlewares/autenticacion');
+// const autenfica = require('../middlewares/autenticacion');
+
 const app = express();
 
-app.get('/usuario', function(req, res) {
+//app.get('/usuario', autenfica.verificaToken, function(req, res) {
+app.get('/usuario', [verificaToken, verificaAdminRole], function(req, res) {
 
     let desde = Number(req.query.desde || 0);
     let limite = Number(req.query.limite || 5);
@@ -35,14 +40,14 @@ app.get('/usuario', function(req, res) {
         });
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdminRole], function(req, res) {
     let body = req.body;
 
     let usuario = new Usuario({
         nombre: body.nombre,
         email: body.email,
-        //password: bcrypt.hashSync(body.password, 10),
-        password: body.password,
+        password: bcrypt.hashSync(body.password, 10),
+        //password: body.password,
         role: body.role
     });
 
@@ -62,14 +67,10 @@ app.post('/usuario', function(req, res) {
     });
 });
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdminRole], function(req, res) {
 
     let id = req.params.id;
-    let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
-    /*
-    delete body.password;
-    delete body.google;
-    */
+    let body = _.pick(req.body, ['nombre', 'email', 'role']);
 
     Usuario.findByIdAndUpdate(id, { body }, { new: true, runValidators: true }, (err, usuarioDB) => {
         if (err) {
@@ -82,18 +83,15 @@ app.put('/usuario/:id', function(req, res) {
 
         res.json({
             ok: true,
-            usuario: usuarioDB
+            usuario: usuarioDB,
+            mensaje: 'Se ha actualizado con éxito'
         });
     });
 });
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRole], function(req, res) {
     let id = req.params.id;
-    let cambiaEstado = {
-        estado: false,
-        role: 'ADMIN_ROLE',
-        email: 'este-es-el-email-cambiado@cambialo.aquesi'
-    }
+    let cambiaEstado = { estado: false, role: 'USER_ROLE' }
 
     Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioDB) => {
         if (err) {
@@ -109,32 +107,6 @@ app.delete('/usuario/:id', function(req, res) {
             usuario: usuarioDB
         });
     });
-    /*
-            //
-            // BORRA el usuario de la BD físicamente
-        Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    mensaje: 'findByIdAndRemove da error',
-                    err
-                });
-            };
-            if (usuarioBorrado === null) {
-                return res.status(400).json({
-                    ok: false,
-                    err: 'USUARIO NO EXISTE para findByIdAndRemov'
-                        //err: {
-                        //    message: 'USUARIO NO EXISTE para findByIdAndRemove',
-                        //}
-                });
-            };
-            res.json({
-                ok: true,
-                usuario: usuarioBorrado
-            });
-        });
-        */
 });
 
 module.exports = app;
