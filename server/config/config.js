@@ -39,7 +39,14 @@ process.env.URLDB = urlDB;
 
 /*
 mongodb://localhost:27017/cafe
-mongodb://<dbuser>:<dbpassword>@ds143893.mlab.com:43893/cafe 
+
+-- mLab -- 
+mongodb://JMLcurso-node:JML@setenipse2018@ds143893.mlab.com:43893/cafe
 usuario: JMLcurso-node
 password: JML@setenipse2018
+
+-- heroku --
+usuario: javier.merino.latorre@gmail.com
+password: JML@setenipse2018
+
 */
