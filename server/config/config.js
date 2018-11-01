@@ -41,9 +41,13 @@ process.env.URLDB = urlDB;
 mongodb://localhost:27017/cafe
 
 -- mLab -- 
-mongodb://JMLcurso-node:JML@setenipse2018@ds143893.mlab.com:43893/cafe
+Acceso a mLab
 usuario: JMLcurso-node
 password: JML@setenipse2018
+
+Base de datos
+Nombre: cafe
+mongodb://jml:JMLsetenipse2018@ds249503.mlab.com:49503/cafe
 
 -- heroku --
 usuario: javier.merino.latorre@gmail.com
