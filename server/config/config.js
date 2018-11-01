@@ -31,26 +31,7 @@ let urlDB;
 if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe';
 } else {
-    //urlDB = 'mongodb://cafe-user:cafe123456@ds143893.mlab.com:43893/cafe';
     urlDB = process.env.MONGO_URI;
 }
 
 process.env.URLDB = urlDB;
-
-/*
-mongodb://localhost:27017/cafe
-
--- mLab -- 
-Acceso a mLab
-usuario: JMLcurso-node
-password: JML@setenipse2018
-
-Base de datos
-Nombre: cafe
-mongodb://jml:JMLsetenipse2018@ds249503.mlab.com:49503/cafe
-
--- heroku --
-usuario: javier.merino.latorre@gmail.com
-password: JML@setenipse2018
-
-*/
